@@ -69,6 +69,7 @@ const replaceOperator = (string, operator, array) => {
 
 // Check if décimal is already written in current number
 const checkDecimal = (string) => {
+  let isAlreadyDecimal = false;
   strArray = string.split(" ");
   strArray.forEach(function(item){
     let splittedWord = [];
@@ -152,7 +153,7 @@ const keyboardListener = (e) => {
     let calcul = doTheCalcul(operation);
     calculatorScreen.innerHTML = calcul;
   }else{
-    errorMessage(`C'est une calculette pas un dico :)`);
+    errorMessage(`C'est une calculette pas un dico :)`, calculatorTitle);
   }
   e.preventDefault();
 }
