@@ -1,12 +1,10 @@
 
 const allButtons = document.querySelectorAll('.btn');
-const numberButtons = document.querySelectorAll('.number');
-const operatorButtons = document.querySelectorAll('.operator');
 const calculatorScreen = document.getElementById('calcul-screen').querySelector('p');
 const messageScreen = document.getElementById('message-screen').querySelector('p');
 const calculatorTitle = messageScreen.textContent;
-const authorizedKeys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "+", "-", "*", "/", "=", ".", ","];
-const operators = ["+", "-", "X", "/", "*"];
+const authorizedKeys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "+", "-", "*", "/", "=", ".", ",", "c", "r"];
+const operators = ["+", "-", "X", "/"];
 let textInScreen = "";
 
 // To insert content at the end of string to the calculator screen
@@ -118,7 +116,7 @@ const clicListener = (e) => {
     removeFromScreen();
   }else if(buttonClicked === "R"){
     calculatorScreen.innerHTML = "";
-  }else if(buttonClicked === "Calculate"){
+  }else if(buttonClicked === "Calc"){
     let operation = calculatorScreen.textContent;
     let calcul = doTheCalcul(operation);
     calculatorScreen.innerHTML = calcul;
@@ -134,28 +132,66 @@ const clicListener = (e) => {
   e.preventDefault();
 }
 
-const keyboardListener = (e) => {
+const keypressListener = (e) => {
   //console.log(e.key);
-  keyPressed = e.key;
+  let keyPressed = e.key;
+  if(keyPressed === "*"){
+    keyPressed = "X";
+  }
   let isAuthorizedKeys = authorizedKeys.includes(keyPressed);
   let isOperatorKey = operators.includes(keyPressed);
   if(keyPressed === "c"){
   removeFromScreen();
-  }else if(isAuthorizedKeys === true && isOperatorKey === false){
-  addToScreen(keyPressed);
-  }else if(isOperatorKey === true){
-    textInScreen = calculatorScreen.textContent;
-    replaceOperator(textInScreen, keyPressed, operators);
   }else if(keyPressed === "r"){
     calculatorScreen.innerHTML = "";
-  }else if(keyPressed === "Enter"){
+  }else if(keyPressed === "Enter" || keyPressed === "="){
     let operation = calculatorScreen.textContent;
     let calcul = doTheCalcul(operation);
     calculatorScreen.innerHTML = calcul;
+  }else if(isAuthorizedKeys === true && isOperatorKey === false){
+    addToScreen(keyPressed);
+  }else if(isOperatorKey === true){
+    textInScreen = calculatorScreen.textContent;
+    replaceOperator(textInScreen, keyPressed, operators);
   }else{
     errorMessage(`C'est une calculette pas un dico :)`, calculatorTitle);
   }
   e.preventDefault();
+}
+
+const keydownListener = (e) => {
+  let keyDowned = e.key;
+  console.log(e.key);
+  let isAuthorizedKeys = operators.includes(keyDowned);
+  if(keyDowned === "," || keyDowned === "."){
+    keyDowned = "."
+  }else if(keyDowned === "Enter"){
+    keyDowned = "=";
+  }
+  if(isAuthorizedKeys === true){
+    button = document.getElementById(keyDowned);
+    console.log(button);
+    button.classList.add("down");
+  }
+  return isAuthorizedKeys;
+}
+
+const keyupListener = (e) => {
+  let keyUpped = e.key;
+  let isAuthorizedKeys = operators.includes(keyUpped);
+  if(keyUpped === "," || keyUpped === "."){
+    keyUpped = "."
+    console.log(keyUpped);
+  }else if(keyUpped === "Enter"){
+    keyUpped = "=";
+    console.log(keyUpped);
+  }
+  if(isAuthorizedKeys === true){
+    button = document.getElementById(keyUpped);
+    console.log(button);
+    button.classList.remove("down");
+  }
+  return isAuthorizedKeys;
 }
 
 const errorMessage = (string, initialString) => {
@@ -175,4 +211,7 @@ allButtons.forEach(function(item){
 });
 
 // Listenning keyboard actions and print his value in the screen (if it's authorized)
-document.addEventListener("keypress", keyboardListener);
+document.addEventListener("keypress", keypressListener);
+
+document.addEventListener("keydown", keydownListener);
+document.addEventListener("keyup", keyupListener);
