@@ -83,9 +83,15 @@ const checkDecimal = (string) => {
 const doTheCalcul = (string) => {
   //convert string in array like ["number1", "operator", "number2"];
   strArray = string.split(" ");
-  let firstValue = parseFloat(strArray[0]);
-  let operator = strArray[1];
-  let secondValue = parseFloat(strArray[2]);
+  if(strArray[0] === ""){
+    strArray[0] = "0";
+  }
+  if(strArray[2] === ""){
+    strArray[2] = "0";
+  }
+  const firstValue = parseFloat(strArray[0]);
+  const operator = strArray[1];
+  const secondValue = parseFloat(strArray[2]);
   if( (operator === "/") && (secondValue === 0)){
     errorMessage(`Division par 0 impossible`, calculatorTitle);
   }else{
