@@ -5,6 +5,12 @@ body{
     align-items: center;
 }
 
+button{
+    -webkit-appearance: none;
+    border-radius: 0;
+    height: auto;
+  }
+
 #body-container{
     width: 100%;
     height: 100vh;
@@ -33,26 +39,28 @@ p{
 }
 
 .buttons{
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    justify-items: stretch;
+    grid-template-columns: repeat(4, 25%);
+    grid-template-rows: repeat(5, 20%);
     height: 75%;
-    background-color: black;
 }
 
 .btn{
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 25%;
+    width: 100%;
+    height: 100%;
     font-size: 1.5em;
 }
 
 .zero{
-    width: 50%;
+    grid-column: span 2;
 }
 
-.point{
-    width: 50%;
+.calc{
+    grid-row: span 2;
 }
 
 @media screen and (min-width: 990px){
