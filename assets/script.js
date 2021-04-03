@@ -97,16 +97,16 @@ const doTheCalcul = (string) => {
   }else{
     switch (operator) {
         case '+':
-            result = firstValue + secondValue;
+            result = Math.round((firstValue + secondValue)*100)/100;
             break;
         case '-':
-            result = firstValue - secondValue;
+            result = Math.round((firstValue - secondValue)*100)/100;
             break;
         case 'X':
-            result = firstValue * secondValue;
+            result = Math.round((firstValue * secondValue)*100)/100;
             break;
         case '/':
-            result = firstValue / secondValue;
+            result = Math.round((firstValue / secondValue)*100)/100;
             break;
         default:
             result = firstValue;
@@ -167,8 +167,8 @@ const keypressListener = (e) => {
 
 const keydownListener = (e) => {
   let keyDowned = e.key;
-  console.log(e.key);
-  let isAuthorizedKeys = operators.includes(keyDowned);
+  console.log(typeof e.key);
+  let isAuthorizedKeys = authorizedKeys.includes(keyDowned);
   if(keyDowned === "," || keyDowned === "."){
     keyDowned = "."
   }else if(keyDowned === "Enter"){
@@ -184,13 +184,11 @@ const keydownListener = (e) => {
 
 const keyupListener = (e) => {
   let keyUpped = e.key;
-  let isAuthorizedKeys = operators.includes(keyUpped);
+  let isAuthorizedKeys = authorizedKeys.includes(keyUpped);
   if(keyUpped === "," || keyUpped === "."){
     keyUpped = "."
-    console.log(keyUpped);
   }else if(keyUpped === "Enter"){
     keyUpped = "=";
-    console.log(keyUpped);
   }
   if(isAuthorizedKeys === true){
     button = document.getElementById(keyUpped);
@@ -220,4 +218,4 @@ allButtons.forEach(function(item){
 document.addEventListener("keypress", keypressListener);
 
 document.addEventListener("keydown", keydownListener);
-document.addEventListener("keyup", keyupListener);
+//document.addEventListener("keyup", keyupListener);
