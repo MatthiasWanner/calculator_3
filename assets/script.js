@@ -4,7 +4,7 @@ const calculatorScreen = document.getElementById('calcul-screen').querySelector(
 const messageScreen = document.getElementById('message-screen').querySelector('p');
 const calculatorTitle = messageScreen.textContent;
 const authorizedKeys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "+", "-", "*", "/", "=", ".", ",", "c", "r"];
-const operators = ["+", "-", "X", "/"];
+const operators = ["+", "-", "x", "/"];
 let textInScreen = "";
 
 // To insert content at the end of string to the calculator screen
@@ -47,7 +47,7 @@ Parmetre 2: Operator (typeof = string) we have to push in string
 Paremètre 3: Comparison array
 */
 const replaceOperator = (string, operator, array) => {
-  let strArray = string.split("");
+  const strArray = string.split("");
   let operatorAtIndex = null;
   for(let i=0; i<strArray.length; i++){
     array.forEach(function(item){
@@ -102,7 +102,7 @@ const doTheCalcul = (string) => {
         case '-':
             result = Math.round((firstValue - secondValue)*100)/100;
             break;
-        case 'X':
+        case 'x':
             result = Math.round((firstValue * secondValue)*100)/100;
             break;
         case '/':
@@ -117,17 +117,17 @@ const doTheCalcul = (string) => {
 
 const clicListener = (e) => {
   //console.log(e);
-  let buttonClicked = e.target.textContent;
-  if(buttonClicked === "C"){
+  const buttonClicked = (e.target.textContent).toLowerCase();
+  if(buttonClicked === "c"){
     removeFromScreen();
-  }else if(buttonClicked === "R"){
+  }else if(buttonClicked === "r"){
     calculatorScreen.innerHTML = "";
-  }else if(buttonClicked === "Calc"){
-    let operation = calculatorScreen.textContent;
-    let calcul = doTheCalcul(operation);
+  }else if(buttonClicked === "calc"){
+    const operation = calculatorScreen.textContent;
+    const calcul = doTheCalcul(operation);
     calculatorScreen.innerHTML = calcul;
   }else{
-    isOperatorBtn = operators.includes(buttonClicked);
+    const isOperatorBtn = operators.includes(buttonClicked);
     if(isOperatorBtn === true){
       textInScreen = calculatorScreen.textContent;
       replaceOperator(textInScreen, buttonClicked, operators);
@@ -140,24 +140,22 @@ const clicListener = (e) => {
 
 const keypressListener = (e) => {
   //console.log(e.key);
-  let keyPressed = e.key;
-  if(keyPressed === "*"){
-    keyPressed = "X";
-  }
-  let isAuthorizedKeys = authorizedKeys.includes(keyPressed);
-  let isOperatorKey = operators.includes(keyPressed);
+  const keyPressed = e.key === "*" ? "x" : e.key;
+  console.log(keyPressed);
+  const isAuthorizedKeys = authorizedKeys.includes(keyPressed);
+  const isOperatorKey = operators.includes(keyPressed);
   if(keyPressed === "c"){
   removeFromScreen();
   }else if(keyPressed === "r"){
     calculatorScreen.innerHTML = "";
   }else if(keyPressed === "Enter" || keyPressed === "="){
-    let operation = calculatorScreen.textContent;
-    let calcul = doTheCalcul(operation);
+    const operation = calculatorScreen.textContent;
+    const calcul = doTheCalcul(operation);
     calculatorScreen.innerHTML = calcul;
   }else if(isAuthorizedKeys === true && isOperatorKey === false){
     addToScreen(keyPressed);
   }else if(isOperatorKey === true){
-    textInScreen = calculatorScreen.textContent;
+    const textInScreen = calculatorScreen.textContent;
     replaceOperator(textInScreen, keyPressed, operators);
   }else{
     errorMessage(`C'est une calculette pas un dico :)`, calculatorTitle);
